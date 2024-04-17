@@ -6,6 +6,7 @@ import (
 	"math/big"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // createNick creates a nickname from the first 3 letters of the name and last name
@@ -101,4 +102,11 @@ func main() {
 	fibNumber := 30
 	weakNumber := findWeakNumber(fibNumber, strongNumber)
 	fmt.Println("Weak number:", weakNumber)
+
+	startTime := time.Now()
+	result := fibonacci(30)
+	endTime := time.Now()
+
+	fmt.Printf("Wynik: %d\n", result)
+	fmt.Printf("Czas wykonania: %v\n", endTime.Sub(startTime))
 }

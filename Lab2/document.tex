@@ -1,0 +1,69 @@
+\documentclass{article}
+\usepackage{graphicx}
+
+\title{Golang Zadanie I}
+\author{Damian Rogalski}
+\date{April 2024}
+
+\begin{document}
+
+\maketitle
+
+\section{Opis}
+
+Program został napisany w języku Go (Golang) i służy do obliczenia liczby silnej i słabej na podstawie imienia i nazwiska.
+
+\section{Importowanie pakietów}
+Kod rozpoczyna się od importowania potrzebnych pakietów, w tym "fmt", "math", "math/big" i "strconv", które są standardowymi pakietami języka Go do obsługi formatowania, matematyki, dużych liczb i konwersji ciągów znaków.
+
+\section{Funkcje}
+\subsection{createNick(name, lastName string) []int}
+Tworzy pseudonim (nickname) z pierwszych trzech liter imienia i nazwiska, a następnie zwraca kod ASCII każdego znaku w pseudonimie w postaci tablicy int.
+
+\subsection{factorial(n int64) *big.Int}
+Oblicza silnię danej liczby za pomocą rekurencji, zwracając wynik jako obiekt typu big.Int.
+
+\subsection{containsAllDigits(number *big.Int, nickCodes []int) bool}
+Sprawdza, czy wszystkie cyfry z kodów pseudonimu występują w liczbie reprezentowanej jako obiekt typu big.Int.
+
+\newpage
+\subsection{findStrongNumber(name, lastName string) int}
+Znajduje pierwszą liczbę, dla której silnia zawiera wszystkie cyfry z kodów pseudonimu (liczby nie mogą na siebie nachodzić).
+
+\subsection{findWeakNumber(fibNumber, strongNumber int) int}
+Znajduje liczbę, dla której liczba wywołań funkcji Fibonacci jest najbliższa liczbie silniej znalezionej wcześniej.
+
+\subsection{fibonacci(n int) int}
+Oblicza n-tą liczbę Fibonacciego przy użyciu rekurencji, zliczając jednocześnie wywołania funkcji dla każdej wartości n.
+
+\subsection{init()}
+Funkcja init() jest wywoływana automatycznie przed funkcją main() i służy do inicjalizacji globalnych zmiennych.
+
+\section{Zmienne}
+W kodzie zdefiniowana jest globalna zmienna callCount map[int]int, która służy do śledzenia liczby wywołań funkcji Fibonacciego dla każdej wartości n.
+
+\section{Opis algorytmu}
+Funkcja findStrongNumber() iteruje od 1 do 500, obliczając silnię każdej liczby i sprawdzając, czy zawiera ona wszystkie cyfry z kodów pseudonimu. 
+Funkcja findWeakNumber() oblicza różnicę między liczbą wywołań funkcji Fibonacciego dla każdej wartości n i liczby silniej znalezionej wcześniej, a następnie zwraca liczbę, dla której ta różnica jest najmniejsza.
+
+\section{Rezultat}
+Dla moich danych wejsciowych to jest imię "Damian" i nazwisko "Rogalski" utworzony nick to "damrog" dla którego silna liczba wynosi 258, a słaba liczba wynosi 18, gdyż dla tej liczby ilość wywołań (233) jest najbliżej silnej liczby. 
+
+\newpage
+\section{Refleksje}
+\subsection{Wyniki astronomicznie duże}
+Podczas wyszukiwania silnej liczby dość szybko napotykamy na ograniczenia związane z wielkością liczb całkowitych. W przypadku mojej silnej liczby konieczne jest wywołanie funkcji factorial dla liczby 258, co wynikowo zwraca liczbę z 303 cyframi. Tak wielka liczba rozpala wyobraźnię niejednego matematyka i prosi się o głębszą analizę.
+
+\subsection{factorial(258)}
+\subsubsection{}
+Gdy spróbujemy podać liczbę 258 do mojej rekurencyjnej implementacji algorytmu fibonacciego to szybko okaże się, że policzenie wartości zajmie komputerowi znacznie dłużej niż moglibyśmy pierwotnie zakładać. Dzieje się tak, gdyż złożoność czasowa tego kodu jest wykładnicza. Oznacza to, że wynikowa liczba to O(2^258) = 4.6316836e+77. 
+
+\subsubsection{}
+Czas wykonywania programu rośnie diametralnie szybko. Dla wywołania fibonacci(30) mój sprzęt obliczył wartość w 25ms, dla fibonacci(40) obliczył w czasie 2,5s, natomiast dla fibonacci(50) zwrócił wartość po 5 minutach i 20 sekundach. Ze względu na naturę eksponencjalnej złożoności czas wykonania fibonacci(258) może być liczony w latach. Z faktu na trudności związane z estymacją czasu ciężko jest określić, ile mógłoby faktycznie zająć wykonanie programu, ale przypuszczeni, że czas może być równy bądź dłuższy od wieku powstania Wszechświata to jest 13,8 mld lat wcale nie wydaje się niemożliwe.
+
+\subsection{ackermann(258, 18)}
+Ackermann to funckja, która w implementacji w języku Go potrzebuje wyłącznie 10 linii kodu, natomiast jej wartości powyżej m=5 i n=4 są niewyobrażalne dla ludzkiego rozumowania przekraczając znacząco liczbę atomów we Wszechświecie spędzają sen z powiek matematyków. Przeliczenie wartości tej funkcji dla argumentów 258 i 18 wykracza poza jakiekolwiek możliwości obliczeniowe współczesnego sprzętu. Próba jakiejkolwiek estymacji jej wartości nawet jeśli przyniesie jakąś konkretną wartość to na pewno będzie wciąż zbyt mała, a jej próba zwizualizowania niemożliwa wykorzystując choćby wszelkie możliwe atomy na świecie. Jest to niezwykle intrygująca funkcja, która pokazuje człowiekowi, że często z pozoru banalny problem potrafi prowadzić do zupełnie niespodziewanych rezultatów.
+
+
+
+\end{document}
