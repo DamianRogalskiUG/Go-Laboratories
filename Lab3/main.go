@@ -19,9 +19,10 @@ func main() {
 	rows, cols := 20, 20
 
 	// probability of a tree being present at a given location
-	treeProbability := 0.5
+	treeProbability := 0.3
 
 	// forest initialisation
+	fmt.Println("Forest:")
 	forest := make([][]int, rows)
 	for i := range forest {
 		forest[i] = make([]int, cols)
@@ -41,9 +42,22 @@ func main() {
 	burntForest := burnForest(forest, rows, cols)
 
 	// print the burnt forest
+	fmt.Println("Burnt forest:")
 	for i := range burntForest {
 		fmt.Println(burntForest[i])
 	}
+
+	// count the number of burnt trees
+	burntTrees := 0
+	for i := range burntForest {
+		for j := range burntForest[i] {
+			if burntForest[i][j] == burning {
+				burntTrees++
+			}
+		}
+	}
+	fmt.Println("Burnt trees:", burntTrees)
+	fmt.Println("Burnt trees percentage:", float64(burntTrees)/float64(rows*cols)*100)
 }
 
 func burnForest(forest [][]int, rows, cols int) [][]int {
