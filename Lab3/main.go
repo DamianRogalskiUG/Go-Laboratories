@@ -7,7 +7,6 @@ import (
 )
 
 const (
-	empty   = iota
 	tree    = 1
 	burning = 2
 )
@@ -19,21 +18,13 @@ func main() {
 	rows, cols := 20, 20
 
 	// probability of a tree being present at a given location
-	treeProbability := 0.3
+	treeProbability := 0.43
 
 	// forest initialisation
-	fmt.Println("Forest:")
-	forest := make([][]int, rows)
-	for i := range forest {
-		forest[i] = make([]int, cols)
-		for j := range forest[i] {
-			if rand.Float64() < treeProbability {
-				forest[i][j] = tree
-			}
-		}
-	}
+	forest := generateForest(rows, cols, treeProbability)
 
 	// print the original forest
+	fmt.Println("Forest:")
 	for i := range forest {
 		fmt.Println(forest[i])
 	}
@@ -89,6 +80,19 @@ func burnForest(forest [][]int, rows, cols int) [][]int {
 				forest[newX][newY] = burning
 				// add the tree to the queue
 				queue = append(queue, []int{newX, newY})
+			}
+		}
+	}
+	return forest
+}
+
+func generateForest(rows, cols int, treeProbability float64) [][]int {
+	forest := make([][]int, rows)
+	for i := range forest {
+		forest[i] = make([]int, cols)
+		for j := range forest[i] {
+			if rand.Float64() < treeProbability {
+				forest[i][j] = tree
 			}
 		}
 	}
