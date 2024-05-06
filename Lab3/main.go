@@ -4,6 +4,11 @@ import (
 	"fmt"
 	"math/rand"
 	"time"
+
+	"github.com/fogleman/gg"
+	"gonum.org/v1/plot"
+	"gonum.org/v1/plot/plotter"
+	"gonum.org/v1/plot/vg"
 )
 
 const (
@@ -57,6 +62,20 @@ func main() {
 		results[treeProbability] = float64(burntTrees)
 	}
 	fmt.Println("Optimal tree probability:", findOptimalTreeProbability(results)*100)
+
+	// generate a plot
+	plotFilename := "burnt_trees.png"
+	if err := generatePlot(results, plotFilename); err != nil {
+		fmt.Println("Błąd podczas generowania wykresu:", err)
+		return
+	}
+	fmt.Println("Plot generated:", plotFilename)
+
+	// generate visualizations
+	visualizeForest(generateForest(rows, cols, 0.43), "original_forest.png")
+	fmt.Println("Visualisation generated: original_forest.png")
+	visualizeForest(burnForest(generateForest(rows, cols, 0.43), rows, cols), "burnt_forest.png")
+	fmt.Println("Visualisation generated: burnt_forest.png")
 }
 
 func burnForest(forest [][]int, rows, cols int) [][]int {
@@ -134,4 +153,47 @@ func findOptimalTreeProbability(results map[float64]float64) float64 {
 	}
 
 	return optimalTreeProbability
+}
+
+// generates a plot and saves it to a file
+func generatePlot(results map[float64]float64, filename string) error {
+	p := plot.New()
+	p.Title.Text = "Burnt trees vs tree probability"
+	p.X.Label.Text = "Percentage of forestation"
+	p.Y.Label.Text = "Ratio of burnt trees to area"
+
+	pts := make(plotter.XYs, len(results))
+	i := 0
+	for treeProbability, burntRatio := range results {
+		pts[i].X = treeProbability
+		pts[i].Y = burntRatio
+		i++
+	}
+
+	s, err := plotter.NewScatter(pts)
+	if err != nil {
+		return err
+	}
+	p.Add(s)
+	p.Save(8*vg.Inch, 8*vg.Inch, filename)
+
+	return nil
+}
+
+// generates a visualization of the forest and saves it to a file
+func visualizeForest(forest [][]int, filename string) {
+	dc := gg.NewContext(len(forest[0])*10, len(forest)*10)
+	dc.SetRGB(1, 1, 1)
+	dc.Clear()
+
+	for i, row := range forest {
+		for j, cell := range row {
+			if cell == tree {
+				dc.DrawRectangle(float64(j*10), float64(i*10), 10, 10)
+				dc.SetRGB(0.25, 0.5, 0.15)
+				dc.Fill()
+			}
+		}
+	}
+	dc.SavePNG(filename)
 }
