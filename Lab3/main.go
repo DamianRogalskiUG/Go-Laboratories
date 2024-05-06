@@ -15,7 +15,7 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 
 	// forest dimensions
-	rows, cols := 20, 20
+	rows, cols := 100, 100
 
 	// probability of a tree being present at a given location
 	treeProbability := 0.43
@@ -44,6 +44,19 @@ func main() {
 	// print the results
 	fmt.Println("Burnt trees:", burntTrees)
 	fmt.Println("Burnt trees percentage:", float64(burntTrees)/float64(rows*cols)*100)
+
+	// find the optimal tree probability
+	numSimulations := 10000
+
+	results := make(map[float64]float64)
+	for i := 0; i < numSimulations; i++ {
+		treeProbability := rand.Float64()
+		forest := generateForest(rows, cols, treeProbability)
+		burntForest := burnForest(forest, rows, cols)
+		burntTrees := countBurntTrees(burntForest)
+		results[treeProbability] = float64(burntTrees)
+	}
+	fmt.Println("Optimal tree probability:", findOptimalTreeProbability(results)*100)
 }
 
 func burnForest(forest [][]int, rows, cols int) [][]int {
@@ -106,4 +119,19 @@ func countBurntTrees(forest [][]int) int {
 		}
 	}
 	return burntTrees
+}
+
+// finds and returns the optimal tree probability for which the number of burnt trees is the smallest
+func findOptimalTreeProbability(results map[float64]float64) float64 {
+	minBurntTrees := float64(1 << 32)
+	optimalTreeProbability := 0.0
+
+	for treeProbability, burntTrees := range results {
+		if burntTrees < minBurntTrees {
+			minBurntTrees = burntTrees
+			optimalTreeProbability = treeProbability
+		}
+	}
+
+	return optimalTreeProbability
 }

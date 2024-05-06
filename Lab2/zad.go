@@ -86,6 +86,16 @@ func fibonacci(n int) int {
 	return fibonacci(n-1) + fibonacci(n-2)
 }
 
+func ackermann(m, n int) int {
+	if m == 0 {
+		return n + 1
+	} else if m > 0 && n == 0 {
+		return ackermann(m-1, 1)
+	} else {
+		return ackermann(m-1, ackermann(m, n-1))
+	}
+}
+
 var callCount map[int]int
 
 func init() {
@@ -104,7 +114,7 @@ func main() {
 	fmt.Println("Weak number:", weakNumber)
 
 	startTime := time.Now()
-	result := fibonacci(30)
+	result := ackermann(5, 1)
 	endTime := time.Now()
 
 	fmt.Printf("Wynik: %d\n", result)
