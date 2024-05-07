@@ -16,6 +16,11 @@ const (
 	burning = 2
 )
 
+type Wind struct {
+	Direction [2]int
+	Strength  int
+}
+
 func main() {
 	rand.Seed(time.Now().UnixNano())
 
@@ -34,8 +39,11 @@ func main() {
 		fmt.Println(forest[i])
 	}
 
+	// define the wind (to the right in this case)
+	wind := Wind{Direction: [2]int{0, 0}, Strength: 1} // 0, 0 - no wind
+
 	// run the simulation
-	burntForest := burnForest(forest, rows, cols)
+	burntForest := burnForest(forest, rows, cols, wind)
 
 	// print the burnt forest
 	fmt.Println("Burnt forest:")
@@ -57,7 +65,7 @@ func main() {
 	for i := 0; i < numSimulations; i++ {
 		treeProbability := rand.Float64()
 		forest := generateForest(rows, cols, treeProbability)
-		burntForest := burnForest(forest, rows, cols)
+		burntForest := burnForest(forest, rows, cols, wind)
 		burntTrees := countBurntTrees(burntForest)
 		results[treeProbability] = float64(burntTrees)
 	}
@@ -75,8 +83,7 @@ func main() {
 	fmt.Println("Visualisation generated: burnt_forest.png")
 }
 
-func burnForest(forest [][]int, rows, cols int) [][]int {
-
+func burnForest(forest [][]int, rows, cols int, wind Wind) [][]int {
 	// random starting point for the fire
 	startBurningX, startBurningY := rand.Intn(rows), rand.Intn(cols)
 
@@ -96,14 +103,20 @@ func burnForest(forest [][]int, rows, cols int) [][]int {
 
 		// check all the neighbouring trees
 		for _, direction := range []struct{ dx, dy int }{{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}} {
-			newX, newY := x+direction.dx, y+direction.dy
+			for step := 1; step <= wind.Strength; step++ {
+				newX, newY := x+direction.dx*step, y+direction.dy*step
 
-			// if the tree is within the forest and is not burning, set it on fire
-			if newX >= 0 && newX < rows && newY >= 0 && newY < cols && forest[newX][newY] == tree {
-				// put the tree on fire
-				forest[newX][newY] = burning
-				// add the tree to the queue
-				queue = append(queue, []int{newX, newY})
+				// calculate the new coordinates considering wind direction
+				newX += wind.Direction[0] * step
+				newY += wind.Direction[1] * step
+
+				// if the tree is within the forest and is not burning, set it on fire
+				if newX >= 0 && newX < rows && newY >= 0 && newY < cols && forest[newX][newY] == tree {
+					// put the tree on fire
+					forest[newX][newY] = burning
+					// add the tree to the queue
+					queue = append(queue, []int{newX, newY})
+				}
 			}
 		}
 	}
