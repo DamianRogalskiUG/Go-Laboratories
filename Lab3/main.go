@@ -34,22 +34,30 @@ func main() {
 	forest := generateForest(rows, cols, treeProbability)
 
 	// print the original forest
-	fmt.Println("Forest:")
-	for i := range forest {
-		fmt.Println(forest[i])
-	}
+	// fmt.Println("Forest:")
+	// for i := range forest {
+	// 	fmt.Println(forest[i])
+	// }
+
+	// generate a visualisation of the forest
+	visualizeForest(forest, "original_forest.png")
+	fmt.Println("Visualisation generated: original_forest.png")
 
 	// define the wind (to the right in this case)
-	wind := Wind{Direction: [2]int{0, 0}, Strength: 1} // 0, 0 - no wind
+	wind := Wind{Direction: [2]int{0, 1}, Strength: 2} // 0, 0 - no wind
 
 	// run the simulation
 	burntForest := burnForest(forest, rows, cols, wind)
 
 	// print the burnt forest
-	fmt.Println("Burnt forest:")
-	for i := range burntForest {
-		fmt.Println(burntForest[i])
-	}
+	// fmt.Println("Burnt forest:")
+	// for i := range burntForest {
+	// 	fmt.Println(burntForest[i])
+	// }
+
+	// generate a visualisation of the burnt forest
+	visualizeForest(burntForest, "burnt_forest.png")
+	fmt.Println("Visualisation generated: burnt_forest.png")
 
 	// count the number of burnt trees
 	burntTrees := countBurntTrees(burntForest)
@@ -75,12 +83,6 @@ func main() {
 	plotFilename := "burnt_trees.png"
 	generatePlot(results, plotFilename)
 	fmt.Println("Plot generated:", plotFilename)
-
-	// generate visualizations
-	visualizeForest(forest, "original_forest.png")
-	fmt.Println("Visualisation generated: original_forest.png")
-	visualizeForest(burntForest, "burnt_forest.png")
-	fmt.Println("Visualisation generated: burnt_forest.png")
 }
 
 func burnForest(forest [][]int, rows, cols int, wind Wind) [][]int {
