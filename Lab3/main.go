@@ -65,16 +65,13 @@ func main() {
 
 	// generate a plot
 	plotFilename := "burnt_trees.png"
-	if err := generatePlot(results, plotFilename); err != nil {
-		fmt.Println("Błąd podczas generowania wykresu:", err)
-		return
-	}
+	generatePlot(results, plotFilename)
 	fmt.Println("Plot generated:", plotFilename)
 
 	// generate visualizations
-	visualizeForest(generateForest(rows, cols, 0.43), "original_forest.png")
+	visualizeForest(forest, "original_forest.png")
 	fmt.Println("Visualisation generated: original_forest.png")
-	visualizeForest(burnForest(generateForest(rows, cols, 0.43), rows, cols), "burnt_forest.png")
+	visualizeForest(burntForest, "burnt_forest.png")
 	fmt.Println("Visualisation generated: burnt_forest.png")
 }
 
