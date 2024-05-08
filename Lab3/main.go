@@ -44,7 +44,7 @@ func main() {
 	fmt.Println("Visualisation generated: original_forest.png")
 
 	// define the wind (to the right in this case)
-	wind := Wind{Direction: [2]int{0, 1}, Strength: 2} // 0, 0 - no wind
+	wind := Wind{Direction: [2]int{0, 0}, Strength: 1} // 0, 0 - no wind
 
 	// run the simulation
 	burntForest := burnForest(forest, rows, cols, wind)
