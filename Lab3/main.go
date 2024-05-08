@@ -202,7 +202,11 @@ func visualizeForest(forest [][]int, filename string) {
 		for j, cell := range row {
 			if cell == tree {
 				dc.DrawRectangle(float64(j*10), float64(i*10), 10, 10)
-				dc.SetRGB(0.25, 0.5, 0.15)
+				dc.SetRGB(0.25, 0.5, 0.15) // Green for trees
+				dc.Fill()
+			} else if cell == burning {
+				dc.DrawRectangle(float64(j*10), float64(i*10), 10, 10)
+				dc.SetRGB(1, 0, 0) // Red for burning trees
 				dc.Fill()
 			}
 		}
