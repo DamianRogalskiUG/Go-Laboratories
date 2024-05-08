@@ -152,19 +152,19 @@ func countBurntTrees(forest [][]int) int {
 	return burntTrees
 }
 
-// finds and returns the optimal tree probability for which the number of burnt trees is the smallest
+// finds and returns the optimal tree density considering both maximizing forest density and minimizing losses
 func findOptimalTreeProbability(results map[float64]float64) float64 {
-	minBurntTrees := float64(1 << 32)
-	optimalTreeProbability := 0.0
-
-	for treeProbability, burntTrees := range results {
-		if burntTrees < minBurntTrees {
-			minBurntTrees = burntTrees
-			optimalTreeProbability = treeProbability
+	optimalTreeDensity := 0.0
+	bestScore := 0.0
+	for treeDensity, loss := range results {
+		// Calculate a score that balances maximizing tree density and minimizing loss
+		score := treeDensity * (1.0 - loss)
+		if score > bestScore {
+			bestScore = score
+			optimalTreeDensity = treeDensity
 		}
 	}
-
-	return optimalTreeProbability
+	return optimalTreeDensity
 }
 
 // generates a plot and saves it to a file
