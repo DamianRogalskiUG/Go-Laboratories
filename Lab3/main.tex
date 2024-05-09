@@ -13,7 +13,7 @@
 Program początkowo losowo generuje las na podstawie współczynnika prawdopodobieństwa wygenerowania drzewa. Następnie wywołana funkcja burnForest losowo wybiera startowy punkt rozpoczęcia pożaru. Jeżeli jest nim drzewo to program zaczyna wyszukiwać przyległych drzew (na górze, dole, obok i po ukosie). Jeżeli program znajdzie drzewo to je podpala. Gdy program nie może już znaleźć kolejnych drzew to zwraca spalony las. Jako dodatkowy parametr możemy uwzględnić wiatr w symulacji. Struktura wiatru posiada siłę oraz kierunek. Po zadaniu kierunku i siły wiatru wybór kolejnych drzew przesuwa się we wskazanym zwrocie po ilości drzew równej sile wiatru. Dalsza część działania programu odbywa się jak w bazowej wersji. 
 
 \section{Wyniki symulacji}
-Dla współczynnika prawdopodobieństwa wygenerowania drzewa rzędu 43\% i lasu wielkości 100x100 program zwraca wyniki spalenia powierzchni lasu rzędu 36\%. Ponadto program dla 10000 prób z losowym współczynnikiem wylicza optymalny współczynnik zalesienia, jednakże wyniki są niejednoznaczne i wahają się miedzy 2 a 40\%. Utrudnia to jednoznaczną analizę, jednakże najczęściej otrzymywałem wyniki około 13\%. Jeżeli do symulacji dodamy wpływ wiatru o sile 2 i kierunku w prawo procentowe wyniki spalenia całej powierzchni lasu wynoszą około między 9\% a 30\%, natomiast optymalny stopień zalesienia oscyluje wokół 2\%.
+Dla współczynnika prawdopodobieństwa wygenerowania drzewa rzędu 43\% i lasu wielkości 100x100 program zwraca wyniki spalenia powierzchni lasu rzędu 36\%. Ponadto program dla 10000 prób z losowym współczynnikiem wylicza optymalny współczynnik zalesienia. Wyniki badań oscylują między 40 - 55\%. Wyniki nie są jednoznaczne, jednakże najczęściej zwracane wyniki oscylowały wokół 40\%. Jeżeli do symulacji dodamy wpływ wiatru o sile 2 i kierunku w prawo procentowe wyniki spalenia całej powierzchni lasu wynoszą około między 9\% a 38\%, natomiast optymalny stopień zalesienia oscyluje wokół 40\%. 
 
 \newpage
 
@@ -63,5 +63,10 @@ Dla współczynnika prawdopodobieństwa wygenerowania drzewa rzędu 43\% i lasu 
         \caption{Wykres stopnia zalesienia do spalonej powierzchni lasu}
     \end{minipage}
 \end{figure}
+
+\newpage
+
+\section{Podsumowanie}
+Przeprowadzona symulacja wskazuje, że optymalny współczynnik zalesienia wynosi około 40\%. Program działa szybko dla lasów wielkości 100x100, ale dla map wielkości 1000x1000 program wyraźnie zwolnił w działaniu i zajął 2 min w kompilacji. Większe mapy tylko pogłębiały to zjawisko. Dla map prostokątnych np. 10x100 otrzymywałem podobne wyniki jak dla map kwadratowych. 
 
 \end{document}

@@ -25,7 +25,7 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 
 	// forest dimensions
-	rows, cols := 100, 100
+	rows, cols := 10, 100
 
 	// probability of a tree being present at a given location
 	treeProbability := 0.43
@@ -44,7 +44,7 @@ func main() {
 	fmt.Println("Visualisation generated: original_forest.png")
 
 	// define the wind (to the right in this case)
-	wind := Wind{Direction: [2]int{0, 0}, Strength: 1} // 0, 0 - no wind
+	wind := Wind{Direction: [2]int{0, 1}, Strength: 2} // 0, 0 - no wind
 
 	// run the simulation
 	burntForest := burnForest(forest, rows, cols, wind)
